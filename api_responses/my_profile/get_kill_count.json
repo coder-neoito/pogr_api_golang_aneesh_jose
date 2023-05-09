@@ -1,0 +1,15 @@
+{
+    "err": false,
+    "data": {
+        "type": "number",
+        "name": "Kills",
+        "top": 42,
+        "rightThumb": {
+            "image": "https://ranking.png",
+            "clickable": false
+        },
+        "thumbnail": "https://killsfslkjflasaskkas.png",
+        "value": 4725,
+        "total": 753687
+    }
+}

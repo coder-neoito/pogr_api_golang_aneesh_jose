@@ -1,0 +1,16 @@
+{
+    "err": false,
+    "data": {
+        "type": "number_percentage",
+        "name": "Wins",
+        "top": 17,
+        "rightThumb": {
+            "image": "https://ranking.png",
+            "clickable": false
+        },
+        "thumbnail": "https://winskdjjsk_sbdj.png",
+        "value": 56,
+        "percentage": 4.9,
+        "total": 753687
+    }
+}

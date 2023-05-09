@@ -1,0 +1,15 @@
+{
+    "err": false,
+    "data": {
+        "type": "rank",
+        "name": "World Ranking",
+        "top": 33,
+        "rightThumb": {
+            "image": "https://ranking.png",
+            "clickable": false
+        },
+        "thumbnail": "https://kjfslkjflasaskkas.png",
+        "value": 28649,
+        "total": 753687
+    }
+}

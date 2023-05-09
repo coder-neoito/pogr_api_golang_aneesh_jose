@@ -1,0 +1,30 @@
+{
+    "err": false,
+    "data": {
+        "type": "characteristics",
+        "name": "Characteristics",
+        "thumbnail": "https://chaksfksdjfas.png",
+        "data": [
+            {
+                "name": "accuracy",
+                "value": 70
+            },
+            {
+                "name": "kills",
+                "value": 80
+            },
+            {
+                "name": "headshots",
+                "value": 30
+            },
+            {
+                "name": "win_rate",
+                "value": 60
+            },
+            {
+                "name": "something",
+                "value": 50
+            }
+        ]
+    }
+}

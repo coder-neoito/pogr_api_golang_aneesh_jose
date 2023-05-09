@@ -1,0 +1,25 @@
+{
+    "err": false,
+    "data": [
+        {
+            "name": "Apex Legends",
+            "subtext": "Ulquiorra",
+            "image": "https://..............apex_legends_sjhbfaks.png"
+        },
+        {
+            "name": "Battlefield 2042",
+            "subtext": "Electronic Arts",
+            "image": "https://..............battlefield_2042_ajsbfa.png"
+        },
+        {
+            "name": "Call of Duty Warzone",
+            "subtext": "Activision",
+            "image": "https://..............call_of_duty_warzone_shsfb.png"
+        },
+        {
+            "name": "CS:GO",
+            "subtext": "Valve",
+            "image": "https://..............cs_go_sjhsf.png"
+        }
+    ]
+}
