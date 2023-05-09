@@ -2,6 +2,7 @@ package game_profiles
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -135,19 +136,23 @@ func (repo profileRepository) ListAllGames(ctx context.Context) ([]models.Game, 
 
 func (repo profileRepository) GetCharacteristics(ctx context.Context, userID primitive.ObjectID, gameCode string) (models.Characteristics, error) {
 	pipeline := []bson.M{
-		{"$match": bson.M{"userID": userID, "game_code": gameCode}},
+		{"$match": bson.M{
+			"$and": bson.A{
+				bson.M{"_id": userID},
+				bson.M{"games": "gta5"},
+			},
+		},
+		},
 		{"$lookup": bson.M{
-			"from":         "games",
-			"localField":   "game_code",
+			"from":         "characteristics",
+			"localField":   "games",
 			"foreignField": "game_code",
-			"as":           "game",
+			"as":           "data",
 		}},
-		{"$unwind": bson.M{"path": "$game"}},
+		{"$unwind": bson.M{"path": "$data"}},
 		{"$project": bson.M{
-			"type":      "characteristics",
-			"name":      "$game.name",
-			"thumbnail": "$game.thumbnail",
-			"data":      "$data",
+			"data": 1,
+			"_id":  0,
 		}},
 	}
 
@@ -159,14 +164,45 @@ func (repo profileRepository) GetCharacteristics(ctx context.Context, userID pri
 	defer cursor.Close(ctx)
 
 	// Iterate over the results and create the response
-	var results []models.Characteristics
+	var result bson.M
+
+	var data []models.CharacteristicsData
 	for cursor.Next(ctx) {
-		var result models.Characteristics
-		if err := cursor.Decode(&result); err != nil {
+		var res bson.M
+		if err := cursor.Decode(&res); err != nil {
 			log.Fatal(err)
 		}
-		results = append(results, result)
+		result = res
 	}
 
-	return models.Characteristics{}, nil
+	if result["data"] == nil {
+		return models.Characteristics{}, nil
+	}
+	if result["data"].(primitive.M)["data"] == nil {
+		return models.Characteristics{}, nil
+	}
+
+	fmt.Println(result["data"].(primitive.M)["data"])
+
+	resDecoded, err := json.Marshal(result["data"].(primitive.M)["data"])
+	if err != nil {
+		fmt.Println(err)
+		return models.Characteristics{}, nil
+	}
+
+	err = json.Unmarshal(resDecoded, &data)
+	if err != nil {
+		log.Fatal(err)
+		return models.Characteristics{}, nil
+	}
+
+	return models.Characteristics{
+		Type: "characteristics",
+		Name: "Characteristics",
+		LeftThumb: models.ThumbData{
+			Icon:        "Account",
+			IsClickable: false,
+		},
+		Data: data,
+	}, nil
 }
