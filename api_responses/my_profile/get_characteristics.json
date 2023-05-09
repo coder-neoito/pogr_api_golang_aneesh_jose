@@ -3,26 +3,29 @@
     "data": {
         "type": "characteristics",
         "name": "Characteristics",
-        "thumbnail": "https://chaksfksdjfas.png",
+        "left_thumb": {
+            "icon": "Account",
+            "is_clickable": false
+        },
         "data": [
             {
-                "name": "accuracy",
+                "name": "Accuracy",
                 "value": 70
             },
             {
-                "name": "kills",
+                "name": "Kills",
                 "value": 80
             },
             {
-                "name": "headshots",
+                "name": "Headshots",
                 "value": 30
             },
             {
-                "name": "win_rate",
+                "name": "Win Rate",
                 "value": 60
             },
             {
-                "name": "something",
+                "name": "Something",
                 "value": 50
             }
         ]
