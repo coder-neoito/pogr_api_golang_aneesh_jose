@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  game_profile:
+    build: 
+      dockerfile: Dockerfile
+      context: ./game_profiles
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: 8000
+      MONGO_PROTOCOL: mongodb
+      MONGO_URI: mongo:27017
+    depends_on:
+      - db
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"

@@ -13,6 +13,7 @@ type profileHandler struct {
 
 type ProfileHandler interface {
 	ListGames(w http.ResponseWriter, r *http.Request)
+	HealthCheck(w http.ResponseWriter, r *http.Request)
 }
 
 func NewProfilehandler(service ProfileService) ProfileHandler {
@@ -39,4 +40,10 @@ func (handler profileHandler) ListGames(w http.ResponseWriter, r *http.Request) 
 	res, _ := json.Marshal(response)
 	w.Header().Set("content-type", "application/json")
 	w.Write(res)
+}
+
+func (handler profileHandler) HealthCheck(w http.ResponseWriter, r *http.Request) {
+	res, _ := json.Marshal("success")
+	w.Write(res)
+	w.WriteHeader(http.StatusOK)
 }
