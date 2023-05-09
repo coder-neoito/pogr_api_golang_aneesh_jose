@@ -25,7 +25,7 @@ func Run() error {
 func createGameProfileRoutes(handler ProfileHandler) *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/api/health", handler.HealthCheck).Methods(http.MethodGet)
-	r.HandleFunc("/api/list-all-games", handler.ListAllGames).Methods(http.MethodPost)
+	r.HandleFunc("/api/list-all-games", handler.ListAllGames).Methods(http.MethodGet)
 
 	createUserRoutes(handler, r)
 	return r

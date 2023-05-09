@@ -23,7 +23,7 @@ type profileRepository struct {
 }
 
 type ProfileRepository interface {
-	ListGames(ctx context.Context, userID string) ([]models.Game, error)
+	ListGames(ctx context.Context, userID primitive.ObjectID) ([]models.Game, error)
 	ListAllGames(ctx context.Context) ([]models.Game, error)
 	GetCharacteristics(ctx context.Context, userID primitive.ObjectID, gameCode string) (models.Characteristics, error)
 }
@@ -51,25 +51,58 @@ func (repo profileRepository) userCollection() *mongo.Collection {
 	return repo.client.Database("games_db").Collection("users")
 }
 
-func (repo profileRepository) ListGames(ctx context.Context, userID string) ([]models.Game, error) {
+func (repo profileRepository) ListGames(ctx context.Context, userID primitive.ObjectID) ([]models.Game, error) {
 
-	filter := bson.M{"userID": userID}
-	projection := bson.M{"games": 1}
-	var result bson.M
+	pipeline := []bson.M{
+		{
+			"$match": bson.M{"_id": userID},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "games",
+				"localField":   "games",
+				"foreignField": "game_code",
+				"as":           "games",
+			},
+		},
+		{
+			"$project": bson.M{
+				"_id":   0,
+				"games": 1,
+			},
+		},
+	}
 
-	err := repo.userCollection().FindOne(ctx, filter, options.FindOne().SetProjection(projection)).Decode(&result)
-
+	curr, err := repo.userCollection().Aggregate(ctx, pipeline, options.Aggregate())
+	// only fetch the first one
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
-	var ok bool
-	games, ok := result["games"].([]models.Game)
-	if !ok {
+
+	var games []models.Game
+
+	var result []bson.M
+	if err := curr.All(ctx, &result); err != nil {
+		fmt.Println(err)
 		return nil, err
+	}
+	if gamesArray, ok := result[0]["games"].(primitive.A); ok {
+		for _, gameRaw := range gamesArray {
+			gameMap := gameRaw.(primitive.M)
+			game := models.Game{
+				ID:        gameMap["_id"].(primitive.ObjectID).Hex(),
+				Name:      gameMap["name"].(string),
+				SubTitle:  gameMap["sub_title"].(string),
+				ThumbNail: gameMap["thumbnail"].(string),
+				GameCode:  gameMap["game_code"].(string),
+			}
+			games = append(games, game)
+		}
 	}
 
 	return games, nil
+
 }
 
 func (repo profileRepository) ListAllGames(ctx context.Context) ([]models.Game, error) {
@@ -106,7 +139,7 @@ func (repo profileRepository) GetCharacteristics(ctx context.Context, userID pri
 		{"$lookup": bson.M{
 			"from":         "games",
 			"localField":   "game_code",
-			"foreignField": "collection",
+			"foreignField": "game_code",
 			"as":           "game",
 		}},
 		{"$unwind": bson.M{"path": "$game"}},

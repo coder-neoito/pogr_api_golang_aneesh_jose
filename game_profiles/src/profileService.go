@@ -2,6 +2,7 @@ package game_profiles
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/pogr_api_golang_aneesh_jose/game_profiles/src/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -24,7 +25,12 @@ func NewProfileService(repository ProfileRepository) ProfileService {
 }
 
 func (service profileService) ListGames(ctx context.Context, userID string) ([]models.Game, error) {
-	return service.repository.ListGames(ctx, userID)
+	userObjectID, err := primitive.ObjectIDFromHex(userID)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	return service.repository.ListGames(ctx, userObjectID)
 }
 
 func (service profileService) ListAllGames(ctx context.Context) ([]models.Game, error) {
