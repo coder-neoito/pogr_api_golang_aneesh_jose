@@ -5,7 +5,8 @@
     },
     "name": "Call of Duty: Modern Warfare",
     "sub_title": "Warzone",
-    "thumbnail": "https://www.example.com/codmw_thumbnail.jpg"
+    "collection":"cod_mw",
+    "thumbnail": "https://mfiles.alphacoders.com/899/899462.jpg"
   },
   {
     "_id": {
@@ -13,7 +14,8 @@
     },
     "name": "Grand Theft Auto V",
     "sub_title": "Online",
-    "thumbnail": "https://www.example.com/codmw_thumbnail.jpg"
+    "collection":"gta5",
+    "thumbnail": "https://w0.peakpx.com/wallpaper/196/975/HD-wallpaper-gta-v.jpg"
 
   },
   {
@@ -21,7 +23,8 @@
       "$oid": "645a4d2069a91d2ec7eef328"
     },
     "name": "Super Mario",
+    "collection": "super_mario",
     "sub_title": "A classic platformer game",
-    "thumbnail": "https://www.example.com/codmw_thumbnail.jpg"
+    "thumbnail": "https://w0.peakpx.com/wallpaper/78/1010/HD-wallpaper-super-mario-cartoon-logo-mario-mario-bros-mario-world-nintendo-super-mario-bros-videojuegos.jpg"
   }
 ]
