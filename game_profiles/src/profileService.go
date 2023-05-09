@@ -11,7 +11,7 @@ type profileService struct {
 }
 
 type ProfileService interface {
-	ListGames(ctx context.Context) ([]models.Game, error)
+	ListGames(ctx context.Context, userID string) ([]models.Game, error)
 }
 
 func NewProfileService(repository ProfileRepository) ProfileService {
@@ -20,6 +20,6 @@ func NewProfileService(repository ProfileRepository) ProfileService {
 	}
 }
 
-func (service profileService) ListGames(ctx context.Context) ([]models.Game, error) {
-	return service.repository.ListGames(ctx)
+func (service profileService) ListGames(ctx context.Context, userID string) ([]models.Game, error) {
+	return service.repository.ListGames(ctx, userID)
 }

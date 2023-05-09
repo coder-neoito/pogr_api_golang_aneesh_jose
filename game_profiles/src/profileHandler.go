@@ -22,7 +22,9 @@ func NewProfilehandler(service ProfileService) ProfileHandler {
 }
 
 func (handler profileHandler) ListGames(w http.ResponseWriter, r *http.Request) {
-	games, err := handler.service.ListGames(r.Context())
+	var userID string
+
+	games, err := handler.service.ListGames(r.Context(), userID)
 	var response models.Response
 	if err != nil {
 		response = models.Response{

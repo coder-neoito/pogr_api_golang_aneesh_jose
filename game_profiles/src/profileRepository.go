@@ -14,7 +14,7 @@ type profileRepository struct {
 }
 
 type ProfileRepository interface {
-	ListGames(ctx context.Context) ([]models.Game, error)
+	ListGames(ctx context.Context, userID string) ([]models.Game, error)
 }
 
 func NewProfileRepository() ProfileRepository {
@@ -32,28 +32,25 @@ func (repo profileRepository) gamesCollection() *mongo.Collection {
 	return repo.client.Database("games_db").Collection("games")
 }
 
-func (repo profileRepository) ListGames(ctx context.Context) ([]models.Game, error) {
-	var games []models.Game
+func (repo profileRepository) userCollection() *mongo.Collection {
+	return repo.client.Database("games_db").Collection("users")
+}
 
-	cur, err := repo.gamesCollection().Find(ctx, bson.M{})
+func (repo profileRepository) ListGames(ctx context.Context, userID string) ([]models.Game, error) {
+
+	filter := bson.M{"userID": userID}
+	projection := bson.M{"games": 1}
+	var result bson.M
+
+	err := repo.userCollection().FindOne(ctx, filter, options.FindOne().SetProjection(projection)).Decode(&result)
 	if err != nil {
 		return nil, err
 	}
-
-	for cur.Next(ctx) {
-		var game models.Game
-		err := cur.Decode(&game)
-		if err != nil {
-			return nil, err
-		}
-		games = append(games, game)
-	}
-
-	if err := cur.Err(); err != nil {
+	var ok bool
+	games, ok := result["games"].([]models.Game)
+	if !ok {
 		return nil, err
 	}
-
-	cur.Close(ctx)
 
 	return games, nil
 }
