@@ -1,0 +1,27 @@
+[
+  {
+    "_id": {
+      "$oid": "645a30d587e0f691ee173e69"
+    },
+    "name": "Call of Duty: Modern Warfare",
+    "sub_title": "Warzone",
+    "thumbnail": "https://www.example.com/codmw_thumbnail.jpg"
+  },
+  {
+    "_id": {
+      "$oid": "645a4ce810282dd9d7c4cbe9"
+    },
+    "name": "Grand Theft Auto V",
+    "sub_title": "Online",
+    "thumbnail": "https://www.example.com/codmw_thumbnail.jpg"
+
+  },
+  {
+    "_id": {
+      "$oid": "645a4d2069a91d2ec7eef328"
+    },
+    "name": "Super Mario",
+    "sub_title": "A classic platformer game",
+    "thumbnail": "https://www.example.com/codmw_thumbnail.jpg"
+  }
+]
