@@ -13,6 +13,6 @@ type CharacteristicsData struct {
 }
 
 type ThumbData struct {
-	Icon        string `json:"image_url"`
+	Icon        string `json:"icon"`
 	IsClickable bool   `json:"is_clickable"`
 }
