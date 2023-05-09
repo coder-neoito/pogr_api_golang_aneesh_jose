@@ -1,0 +1,51 @@
+[
+    {
+        "_id": {
+            "$oid": "645a242589e0f691ee173e60"
+        },
+        "user_id": {
+            "$oid": "645a242587e0f691ee173e52"
+        },
+        
+        "map_id":{
+            "$oid": "645a242589e0f691ee173e50"
+        },
+        "game_code":"cod_mw"
+    },
+    {
+        "_id": {
+            "$oid": "645a242589e0f691ee173e61"
+        },
+        "user_id": {
+            "$oid": "645a242587e0f691ee173e52"
+        },
+        "map_id":{
+            "$oid": "645a242589e0f691ee173e50"
+        },
+        "game_code":"cod_mw"
+    },
+    {
+        "_id": {
+            "$oid": "645a242589e0f691ee173e62"
+        },
+        "user_id": {
+            "$oid": "645a242587e0f691ee173e52"
+        },
+        "map_id":{
+            "$oid": "645a242589e0f691ee173e50"
+        },
+        "game_code":"cod_mw"
+    },
+    {
+        "_id": {
+            "$oid": "645a242589e0f691ee173e63"
+        },
+        "user_id": {
+            "$oid": "645a242587e0f691ee173e52"
+        },
+        "map_id":{
+            "$oid": "645a242589e0f691ee173e51"
+        },
+        "game_code":"cod_mw"
+    }
+]

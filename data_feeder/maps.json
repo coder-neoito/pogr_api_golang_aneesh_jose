@@ -1,0 +1,18 @@
+[
+    {
+        "_id": {
+            "$oid": "645a242589e0f691ee173e50"
+        },
+        "game_code": "cod_mw",
+        "url":"https://www.gamespot.com/a/uploads/scale_super/1639/16394540/3901118-screenshot_20211024-143435_callofduty.jpg",
+        "name":"Coastal"
+    },
+    {
+        "_id": {
+            "$oid": "645a242589e0f691ee173e51"
+        },
+        "game_code": "cod_mw",
+        "url":"https://www.gamespot.com/a/uploads/scale_super/1639/16394540/3901119-screenshot_20211024-032924_callofduty.jpg",
+        "name":"Crash"
+    }
+]
