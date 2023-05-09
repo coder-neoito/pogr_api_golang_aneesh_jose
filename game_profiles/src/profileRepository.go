@@ -18,10 +18,13 @@ type ProfileRepository interface {
 }
 
 func NewProfileRepository() ProfileRepository {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	clientOptions := options.Client().ApplyURI("mongodb://root:password@localhost:27017")
 	client, err := mongo.Connect(nil, clientOptions)
 	if err != nil {
 		return nil
+	}
+	if err != nil || client == nil {
+		panic(err)
 	}
 	return &profileRepository{
 		client: client,

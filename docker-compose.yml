@@ -11,9 +11,15 @@ services:
       PORT: 8000
       MONGO_PROTOCOL: mongodb
       MONGO_URI: mongo:27017
+      MONGO_USERNAME: root
+      MONGO_PASSWORD: password
     depends_on:
       - db
   db:
+    container_name: mongo
     image: mongo:latest
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: 'root'
+      MONGO_INITDB_ROOT_PASSWORD: 'password'
