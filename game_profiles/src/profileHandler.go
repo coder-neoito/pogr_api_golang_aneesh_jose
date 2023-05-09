@@ -14,6 +14,7 @@ type profileHandler struct {
 
 type ProfileHandler interface {
 	ListGames(w http.ResponseWriter, r *http.Request)
+	GetCharacteristics(w http.ResponseWriter, r *http.Request)
 	ListAllGames(w http.ResponseWriter, r *http.Request)
 	HealthCheck(w http.ResponseWriter, r *http.Request)
 }
@@ -30,14 +31,10 @@ func (handler profileHandler) ListGames(w http.ResponseWriter, r *http.Request) 
 	vars := mux.Vars(r)
 	userID = vars["userID"]
 	games, err := handler.service.ListGames(r.Context(), userID)
-	var response models.Response
-	if err != nil {
-		response = models.Response{
-			Err:  true,
-			Data: err.Error(),
-		}
+	if sendErrorResponse(err, w) {
+		return
 	}
-	response = models.Response{
+	response := models.Response{
 		Data: games,
 	}
 
@@ -50,6 +47,44 @@ func (handler profileHandler) HealthCheck(w http.ResponseWriter, r *http.Request
 	res, _ := json.Marshal("success")
 	w.Write(res)
 	w.WriteHeader(http.StatusOK)
+}
+
+func (handler profileHandler) ListAllGames(w http.ResponseWriter, r *http.Request) {
+
+	games, err := handler.service.ListAllGames(r.Context())
+	if sendErrorResponse(err, w) {
+		return
+	}
+
+	response := models.Response{
+		Data: games,
+	}
+
+	res, _ := json.Marshal(response)
+	w.Header().Set("content-type", "application/json")
+	w.Write(res)
+}
+
+func (handler profileHandler) GetCharacteristics(w http.ResponseWriter, r *http.Request) {
+	var userID string
+	var gameCode string
+
+	vars := mux.Vars(r)
+	userID = vars["userID"]
+	gameCode = vars["gameCode"]
+
+	characteristics, err := handler.service.GetCharacteristics(r.Context(), userID, gameCode)
+	if sendErrorResponse(err, w) {
+		return
+	}
+
+	response := models.Response{
+		Data: characteristics,
+	}
+
+	res, _ := json.Marshal(response)
+	w.Header().Set("content-type", "application/json")
+	w.Write(res)
 }
 
 func sendErrorResponse(err error, w http.ResponseWriter) bool {
@@ -65,23 +100,4 @@ func sendErrorResponse(err error, w http.ResponseWriter) bool {
 	w.Write(res)
 	w.WriteHeader(http.StatusBadRequest)
 	return true
-}
-
-func (handler profileHandler) ListAllGames(w http.ResponseWriter, r *http.Request) {
-
-	games, err := handler.service.ListAllGames(r.Context())
-	var response models.Response
-	if err != nil {
-		response = models.Response{
-			Err:  true,
-			Data: err.Error(),
-		}
-	}
-	response = models.Response{
-		Data: games,
-	}
-
-	res, _ := json.Marshal(response)
-	w.Header().Set("content-type", "application/json")
-	w.Write(res)
 }

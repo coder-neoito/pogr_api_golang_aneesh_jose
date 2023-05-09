@@ -34,7 +34,7 @@ func createGameProfileRoutes(handler ProfileHandler) *mux.Router {
 func createUserRoutes(handler ProfileHandler, r *mux.Router) {
 	userRoutes := r.PathPrefix("/api/user/{userID}").Subrouter()
 	userRoutes.HandleFunc("/list-games", handler.ListGames).Methods(http.MethodGet)
-	userRoutes.HandleFunc("/list-games", handler.ListGames).Methods(http.MethodGet)
+	userRoutes.HandleFunc("/game/{gameCode}/get-characteristics", handler.GetCharacteristics).Methods(http.MethodGet)
 }
 
 func createCORSHandler(rootHandler http.Handler) http.Handler {
