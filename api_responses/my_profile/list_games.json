@@ -1,0 +1,23 @@
+[
+    {
+        "_id": "645a30d587e0f691ee173e69",
+        "name": "Call of Duty: Modern Warfare",
+        "sub_title": "Warzone",
+        "collection": "cod_mw",
+        "thumbnail": "https://mfiles.alphacoders.com/899/899462.jpg"
+    },
+    {
+        "_id": "645a4ce810282dd9d7c4cbe9",
+        "name": "Grand Theft Auto V",
+        "sub_title": "Online",
+        "collection": "gta5",
+        "thumbnail": "https://w0.peakpx.com/wallpaper/196/975/HD-wallpaper-gta-v.jpg"
+    },
+    {
+        "_id": "645a4d2069a91d2ec7eef328",
+        "name": "Super Mario",
+        "collection": "super_mario",
+        "sub_title": "A classic platformer game",
+        "thumbnail": "https://w0.peakpx.com/wallpaper/78/1010/HD-wallpaper-super-mario-cartoon-logo-mario-mario-bros-mario-world-nintendo-super-mario-bros-videojuegos.jpg"
+    }
+]

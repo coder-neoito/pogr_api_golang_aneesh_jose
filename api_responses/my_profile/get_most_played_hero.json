@@ -1,0 +1,19 @@
+{
+    "err": false,
+    "data": {
+        "type": "hero_card",
+        "image": "https://hero_sombra.png",
+        "name": "Sombra",
+        "description": "Most played hero",
+        "data": [
+            {
+                "name": "Rank",
+                "value": "#718"
+            },
+            {
+                "name": "Sniper Accuracy",
+                "value": "29.5%"
+            }
+        ]
+    }
+}

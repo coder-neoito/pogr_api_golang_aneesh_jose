@@ -1,0 +1,33 @@
+[
+  {
+    "_id": {
+      "$oid": "645a61d769a91d2ec7eef341"
+    },
+    "userID": {
+      "$oid": "645a242587e0f691ee173e52"
+    },
+    "game_code":"cod_mw",
+    "data": [
+      {
+        "name": "Accuracy",
+        "value": 70
+      },
+      {
+        "name": "Kills",
+        "value": 80
+      },
+      {
+        "name": "Headshots",
+        "value": 30
+      },
+      {
+        "name": "Win Rate",
+        "value": 60
+      },
+      {
+        "name": "Something",
+        "value": 50
+      }
+    ]
+  }
+]

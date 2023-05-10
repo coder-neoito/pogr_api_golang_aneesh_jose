@@ -1,0 +1,33 @@
+{
+    "err": false,
+    "data": {
+        "type": "characteristics",
+        "name": "Characteristics",
+        "left_thumb": {
+            "icon": "Account",
+            "is_clickable": false
+        },
+        "data": [
+            {
+                "name": "Accuracy",
+                "value": 70
+            },
+            {
+                "name": "Kills",
+                "value": 80
+            },
+            {
+                "name": "Headshots",
+                "value": 30
+            },
+            {
+                "name": "Win Rate",
+                "value": 60
+            },
+            {
+                "name": "Something",
+                "value": 50
+            }
+        ]
+    }
+}

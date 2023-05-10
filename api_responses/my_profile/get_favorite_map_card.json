@@ -1,0 +1,13 @@
+{
+    "err": false,
+    "data": {
+        "type": "card",
+        "image": "https://hero_sombra.png",
+        "name": "Colosso",
+        "description": "Favorite map",
+        "leftThumb": {
+            "image": "https://globe.png",
+            "clickable": false
+        }
+    }
+}

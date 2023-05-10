@@ -1,0 +1,32 @@
+{
+    "err": false,
+    "data":  {
+        "type": "circular_graph",
+        "name": "KDA ratio",
+        "leftThumb": {
+            "image": "https://kds_ratio.png",
+            "clickable": false
+        },
+        "rightThumb": {
+            "image": "https://rank.png",
+            "clickable": false
+        },
+        "data": [
+            {
+                "type": "kills",
+                "name": "Kills",
+                "value": 60
+            },
+            {
+                "type": "assists",
+                "name": "Assists",
+                "value": 25
+            },
+            {
+                "type": "deaths",
+                "name": "Deaths",
+                "value": 15
+            }
+        ]
+    }
+}
