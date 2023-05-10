@@ -29,7 +29,7 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
       - name: Tag Docker image
         run: |
-          docker tag pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER gcr.io/ ${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REGION }}/pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER
+          docker tag pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REGION }}/pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER
       - name: Push Docker image to Artifact Registry
         run: |
           docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REGION }}/pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER
