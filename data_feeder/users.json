@@ -3,6 +3,7 @@
         "_id": {
             "$oid": "645a242587e0f691ee173e52"
         },
+        "name":"User 01",
         "games": [
             "cod_mw",
             "gta5"

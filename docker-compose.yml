@@ -15,6 +15,20 @@ services:
       MONGO_PASSWORD: password
     depends_on:
       - db
+  profile_overview:
+    build: 
+      dockerfile: Dockerfile
+      context: ./profile_overview
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      MONGO_PROTOCOL: mongodb
+      MONGO_URI: mongo:27017
+      MONGO_USERNAME: root
+      MONGO_PASSWORD: password
+    depends_on:
+      - db
   db:
     container_name: mongo
     image: mongo:latest
