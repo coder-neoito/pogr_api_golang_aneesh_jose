@@ -27,6 +27,7 @@ type ProfileRepository interface {
 	ListGames(ctx context.Context, userID primitive.ObjectID) ([]models.Game, error)
 	ListAllGames(ctx context.Context) ([]models.Game, error)
 	GetCharacteristics(ctx context.Context, userID primitive.ObjectID, gameCode string) (models.Characteristics, error)
+	GetFavoriteMap(ctx context.Context, userID primitive.ObjectID, gameCode string) (models.Card, error)
 }
 
 func NewProfileRepository() ProfileRepository {
@@ -50,6 +51,10 @@ func (repo profileRepository) gamesCollection() *mongo.Collection {
 
 func (repo profileRepository) userCollection() *mongo.Collection {
 	return repo.client.Database("games_db").Collection("users")
+}
+
+func (repo profileRepository) mapsUserConnectorCollection() *mongo.Collection {
+	return repo.client.Database("games_db").Collection("maps_user_connector")
 }
 
 func (repo profileRepository) ListGames(ctx context.Context, userID primitive.ObjectID) ([]models.Game, error) {
@@ -80,6 +85,7 @@ func (repo profileRepository) ListGames(ctx context.Context, userID primitive.Ob
 		fmt.Println(err)
 		return nil, err
 	}
+	defer curr.Close(ctx)
 
 	var games []models.Game
 
@@ -182,8 +188,6 @@ func (repo profileRepository) GetCharacteristics(ctx context.Context, userID pri
 		return models.Characteristics{}, nil
 	}
 
-	fmt.Println(result["data"].(primitive.M)["data"])
-
 	resDecoded, err := json.Marshal(result["data"].(primitive.M)["data"])
 	if err != nil {
 		fmt.Println(err)
@@ -205,4 +209,103 @@ func (repo profileRepository) GetCharacteristics(ctx context.Context, userID pri
 		},
 		Data: data,
 	}, nil
+}
+
+func (repo profileRepository) GetFavoriteMap(ctx context.Context, userID primitive.ObjectID, gameCode string) (models.Card, error) {
+	pipeline := bson.A{
+		bson.M{
+			"$match": bson.M{
+				"$and": bson.A{
+					bson.M{"user_id": userID},
+					bson.M{"game_code": gameCode},
+				},
+			},
+		},
+		bson.M{
+			"$group": bson.M{
+				"_id": "$map_id",
+				"count": bson.M{
+					"$sum": 1,
+				},
+			},
+		},
+		bson.M{
+			"$sort": bson.M{
+				"count": -1,
+			},
+		},
+		bson.M{
+			"$limit": 1,
+		},
+		bson.M{
+			"$lookup": bson.M{
+				"from":         "maps",
+				"localField":   "_id",
+				"foreignField": "_id",
+				"as":           "map",
+			},
+		},
+		bson.M{
+			"$unwind": bson.M{
+				"path": "$map",
+			},
+		},
+		bson.M{
+			"$lookup": bson.M{
+				"from":         "games",
+				"localField":   "map.game_code",
+				"foreignField": "game_code",
+				"as":           "games_details",
+			},
+		},
+		bson.M{
+			"$project": bson.M{
+				"_id":   1,
+				"count": 1,
+				"map":   1,
+				"game": bson.M{
+					"$arrayElemAt": bson.A{
+						"$games_details", 0,
+					},
+				},
+			},
+		},
+		bson.M{
+			"$project": bson.M{
+				"_id":         0,
+				"type":        "card",
+				"image":       "$map.url",
+				"name":        "$map.name",
+				"description": bson.M{"$concat": bson.A{"Most used map for ", "$game.name"}},
+				"left_thumb": bson.M{
+					"icon": "globe",
+				},
+			},
+		},
+		bson.M{
+			"$limit": 1,
+		},
+	}
+	fmt.Println(pipeline...)
+
+	// Execute the aggregation query
+	cursor, err := repo.mapsUserConnectorCollection().Aggregate(ctx, pipeline)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer cursor.Close(ctx)
+
+	var result models.Card
+	if cursor.Next(ctx) {
+		err := cursor.Decode(&result)
+		if err != nil {
+			fmt.Println("Error decoding result:", err)
+			return result, err
+		}
+		fmt.Println(result)
+
+	} else {
+		fmt.Println("No results found.")
+	}
+	return result, nil
 }
