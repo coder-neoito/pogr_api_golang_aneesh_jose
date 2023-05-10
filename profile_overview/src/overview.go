@@ -26,7 +26,14 @@ func Run() error {
 func createGameProfileRoutes(handler OverviewHandler) *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/api/health", handler.HealthCheck).Methods(http.MethodGet)
+
+	createUserRoutes(handler, r)
 	return r
+}
+
+func createUserRoutes(handler OverviewHandler, r *mux.Router) {
+	userRoutes := r.PathPrefix("/api/user/{userID}").Subrouter()
+	userRoutes.HandleFunc("/get-details", handler.GetUser).Methods(http.MethodGet)
 }
 
 func createCORSHandler(rootHandler http.Handler) http.Handler {
