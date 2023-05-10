@@ -14,7 +14,7 @@ type achievementsService struct {
 }
 
 type AchievementsService interface {
-	GetUserAchievements(ctx context.Context, userID string) (models.User, error)
+	GetUserAchievements(ctx context.Context, userID string) ([]models.Achievement, error)
 }
 
 func NewAchievementsService(repository AchievementsRepository) AchievementsService {
@@ -23,14 +23,14 @@ func NewAchievementsService(repository AchievementsRepository) AchievementsServi
 	}
 }
 
-func (service achievementsService) GetUserAchievements(ctx context.Context, userID string) (models.User, error) {
+func (service achievementsService) GetUserAchievements(ctx context.Context, userID string) ([]models.Achievement, error) {
 	if userID == "" {
-		return models.User{}, errors.New("invalid user id")
+		return nil, errors.New("invalid user id")
 	}
 	userObjectID, err := primitive.ObjectIDFromHex(userID)
 	if err != nil {
 		fmt.Println(err)
-		return models.User{}, err
+		return nil, err
 	}
 	return service.repository.GetUserAchievements(ctx, userObjectID)
 }

@@ -35,12 +35,12 @@ func (handler achievementsHandler) GetUserAchievements(w http.ResponseWriter, r 
 
 	vars := mux.Vars(r)
 	userID = vars["userID"]
-	games, err := handler.service.GetUserAchievements(r.Context(), userID)
+	achievements, err := handler.service.GetUserAchievements(r.Context(), userID)
 	if sendErrorResponse(err, w) {
 		return
 	}
 	response := models.Response{
-		Data: games,
+		Data: achievements,
 	}
 
 	res, _ := json.Marshal(response)

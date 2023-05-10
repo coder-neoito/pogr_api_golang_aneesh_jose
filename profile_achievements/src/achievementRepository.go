@@ -24,7 +24,7 @@ type achievementsRepository struct {
 }
 
 type AchievementsRepository interface {
-	GetUserAchievements(ctx context.Context, userID primitive.ObjectID) (models.User, error)
+	GetUserAchievements(ctx context.Context, userID primitive.ObjectID) ([]models.Achievement, error)
 }
 
 func NewAchievementsRepository() AchievementsRepository {
@@ -46,22 +46,62 @@ func (repo achievementsRepository) usersCollection() *mongo.Collection {
 	return repo.client.Database("games_db").Collection("users")
 }
 
-func (repo achievementsRepository) GetUserAchievements(ctx context.Context, userID primitive.ObjectID) (models.User, error) {
-	var user models.User
+func (repo achievementsRepository) GetUserAchievements(ctx context.Context, userID primitive.ObjectID) ([]models.Achievement, error) {
+	var achievements []models.Achievement
 	pipeline := bson.A{
 		bson.M{
-			"$match": bson.M{"_id": userID},
-		},
-		bson.M{
 			"$lookup": bson.M{
-				"from":         "games",
-				"localField":   "games",
-				"foreignField": "game_code",
-				"as":           "games",
+				"from":         "achievements_user_connector",
+				"localField":   "_id",
+				"foreignField": "user_id",
+				"as":           "achievements",
 			},
 		},
 		bson.M{
-			"$limit": 1,
+			"$project": bson.M{
+				"achievements": 1,
+			},
+		},
+		bson.M{
+			"$unwind": bson.M{
+				"path": "$achievements",
+			},
+		},
+		bson.M{
+			"$lookup": bson.M{
+				"from":         "achievements",
+				"localField":   "achievements.achievement_id",
+				"foreignField": "_id",
+				"as":           "achievement",
+			},
+		},
+		bson.M{
+			"$project": bson.M{
+				"achievement": 1,
+			},
+		},
+		bson.M{
+			"$unwind": bson.M{
+				"path": "$achievement",
+			},
+		},
+		bson.M{
+			"$lookup": bson.M{
+				"from":         "rewards",
+				"localField":   "achievement.rewards._id",
+				"foreignField": "_id",
+				"as":           "achievement.rewards",
+			},
+		},
+		bson.M{
+			"$project": bson.M{
+				"_id": 0,
+			},
+		},
+		bson.M{
+			"$replaceRoot": bson.M{
+				"newRoot": "$achievement",
+			},
 		},
 	}
 
@@ -72,15 +112,13 @@ func (repo achievementsRepository) GetUserAchievements(ctx context.Context, user
 	}
 	defer cursor.Close(ctx)
 
-	if cursor.Next(ctx) {
-		err := cursor.Decode(&user)
-		if err != nil {
-			fmt.Println("Error decoding user:", err)
-			return user, err
-		}
+	// res := make([]map[string]interface{}, 0)
 
-	} else {
-		fmt.Println("No users found.")
+	// if err := cursor.All(ctx, &res); err != nil {
+	if err := cursor.All(ctx, &achievements); err != nil {
+		log.Fatal(err)
 	}
-	return user, nil
+	// fmt.Println(res)
+
+	return achievements, nil
 }
