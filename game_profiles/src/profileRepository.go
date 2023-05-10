@@ -286,7 +286,6 @@ func (repo profileRepository) GetFavoriteMap(ctx context.Context, userID primiti
 			"$limit": 1,
 		},
 	}
-	fmt.Println(pipeline...)
 
 	// Execute the aggregation query
 	cursor, err := repo.mapsUserConnectorCollection().Aggregate(ctx, pipeline)
@@ -302,7 +301,6 @@ func (repo profileRepository) GetFavoriteMap(ctx context.Context, userID primiti
 			fmt.Println("Error decoding result:", err)
 			return result, err
 		}
-		fmt.Println(result)
 
 	} else {
 		fmt.Println("No results found.")
