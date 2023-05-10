@@ -1,0 +1,35 @@
+[
+    {
+        "_id": {
+            "$oid": "645a242587e0f691ee184e51"
+        },
+        "achievement_id": {
+            "$oid": "645a242587e0f691ee174e51"
+        },
+        "user_id": {
+            "$oid": "645a242587e0f691ee173e52"
+        }
+    },
+    {
+        "_id": {
+            "$oid": "645a242587e0f691ee184e52"
+        },
+        "achievement_id": {
+            "$oid": "645a242587e0f691ee174e52"
+        },
+        "user_id": {
+            "$oid": "645a242587e0f691ee173e52"
+        }
+    },
+    {
+        "_id": {
+            "$oid": "645a242587e0f691ee184e53"
+        },
+        "achievement_id": {
+            "$oid": "645a242587e0f691ee174e53"
+        },
+        "user_id": {
+            "$oid": "645a242587e0f691ee173e52"
+        }
+    }
+]

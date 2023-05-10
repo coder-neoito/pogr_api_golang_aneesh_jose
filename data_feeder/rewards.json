@@ -1,0 +1,26 @@
+[
+    {
+        "_id": {
+            "$oid": "645a242587e0f691ee176e51"
+        },
+        "provider": "pogr",
+        "value": 400,
+        "type": "exp"
+    },
+    {
+        "_id": {
+            "$oid": "645a242587e0f691ee176e52"
+        },
+        "provider": "pogr",
+        "value": 250,
+        "type": "exp"
+    },
+    {
+        "_id": {
+            "$oid": "645a242587e0f691ee176e53"
+        },
+        "provider": "pogr",
+        "value": 300,
+        "type": "exp"
+    }
+]
