@@ -1,0 +1,25 @@
+name: Profile Overview Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "profile_overview/**"
+      - ".github/workflows/profile_overview.yml"
+jobs:
+  build_profile_overview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.19.x
+
+      - name: Build Docker image for profile_overview
+        run: |
+          cd profile_overview
+          docker build -t pogr_interview_test:profile_overview:$GITHUB_RUN_NUMBER .
