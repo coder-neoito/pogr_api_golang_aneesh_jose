@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths:
-      - "game_profile/**"
-      - ".github/workflows/game_profile.yml"
+      - "game_profiles/**"
+      - ".github/workflows/game_profiles.yml"
 jobs:
-  build_game_profile:
+  build_game_profiles:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -19,7 +19,7 @@ jobs:
         with:
           go-version: 1.19.x
 
-      - name: Build Docker image for game_profile
+      - name: Build Docker image for game_profiles
         run: |
-          cd game_profile
-          docker build -t pogr_interview_test:game_profile:$GITHUB_RUN_NUMBER .
+          cd game_profiles
+          docker build -t pogr_interview_test:game_profiles:$GITHUB_RUN_NUMBER .
