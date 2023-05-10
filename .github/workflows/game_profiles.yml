@@ -22,4 +22,4 @@ jobs:
       - name: Build Docker image for game_profiles
         run: |
           cd game_profiles
-          docker build -t pogr_interview_test:game_profiles:$GITHUB_RUN_NUMBER .
+          docker build -t pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER .
