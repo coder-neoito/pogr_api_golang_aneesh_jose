@@ -46,8 +46,8 @@ func (handler profileHandler) ListGames(w http.ResponseWriter, r *http.Request) 
 
 func (handler profileHandler) HealthCheck(w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal("success")
-	w.Write(res)
 	w.WriteHeader(http.StatusOK)
+	w.Write(res)
 }
 
 func (handler profileHandler) ListAllGames(w http.ResponseWriter, r *http.Request) {
