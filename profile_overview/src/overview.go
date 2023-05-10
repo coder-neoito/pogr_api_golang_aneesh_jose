@@ -1,9 +1,10 @@
-package game_profiles
+package profile_overview
 
 import (
-	"fmt"
 	"net/http"
 	"os"
+
+	"fmt"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -12,9 +13,9 @@ import (
 var port = GetEnvOrDefault("PORT", "8080")
 
 func Run() error {
-	gamerRepo := NewProfileRepository()
-	gameService := NewProfileService(gamerRepo)
-	gameHandler := NewProfilehandler(gameService)
+	overviewRepo := NewOverviewRepository()
+	gameService := NewOverviewService(overviewRepo)
+	gameHandler := NewOverviewHandler(gameService)
 
 	gameRoutes := createGameProfileRoutes(gameHandler)
 	corsHandler := createCORSHandler(gameRoutes)
@@ -22,20 +23,10 @@ func Run() error {
 	return http.ListenAndServe(fmt.Sprintf(":%s", port), corsHandler)
 }
 
-func createGameProfileRoutes(handler ProfileHandler) *mux.Router {
+func createGameProfileRoutes(handler OverviewHandler) *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/api/health", handler.HealthCheck).Methods(http.MethodGet)
-	r.HandleFunc("/api/list-all-games", handler.ListAllGames).Methods(http.MethodGet)
-
-	createUserRoutes(handler, r)
 	return r
-}
-
-func createUserRoutes(handler ProfileHandler, r *mux.Router) {
-	userRoutes := r.PathPrefix("/api/user/{userID}").Subrouter()
-	userRoutes.HandleFunc("/list-games", handler.ListGames).Methods(http.MethodGet)
-	userRoutes.HandleFunc("/game/{gameCode}/get-characteristics", handler.GetCharacteristics).Methods(http.MethodGet)
-	userRoutes.HandleFunc("/game/{gameCode}/get-favorite-map", handler.GetFavoriteMap).Methods(http.MethodGet)
 }
 
 func createCORSHandler(rootHandler http.Handler) http.Handler {

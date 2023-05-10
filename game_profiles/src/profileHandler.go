@@ -13,10 +13,11 @@ type profileHandler struct {
 }
 
 type ProfileHandler interface {
+	HealthCheck(w http.ResponseWriter, r *http.Request)
+	ListAllGames(w http.ResponseWriter, r *http.Request)
 	ListGames(w http.ResponseWriter, r *http.Request)
 	GetCharacteristics(w http.ResponseWriter, r *http.Request)
-	ListAllGames(w http.ResponseWriter, r *http.Request)
-	HealthCheck(w http.ResponseWriter, r *http.Request)
+	GetFavoriteMap(w http.ResponseWriter, r *http.Request)
 }
 
 func NewProfilehandler(service ProfileService) ProfileHandler {
@@ -45,8 +46,8 @@ func (handler profileHandler) ListGames(w http.ResponseWriter, r *http.Request) 
 
 func (handler profileHandler) HealthCheck(w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal("success")
-	w.Write(res)
 	w.WriteHeader(http.StatusOK)
+	w.Write(res)
 }
 
 func (handler profileHandler) ListAllGames(w http.ResponseWriter, r *http.Request) {
@@ -80,6 +81,28 @@ func (handler profileHandler) GetCharacteristics(w http.ResponseWriter, r *http.
 
 	response := models.Response{
 		Data: characteristics,
+	}
+
+	res, _ := json.Marshal(response)
+	w.Header().Set("content-type", "application/json")
+	w.Write(res)
+}
+
+func (handler profileHandler) GetFavoriteMap(w http.ResponseWriter, r *http.Request) {
+	var userID string
+	var gameCode string
+
+	vars := mux.Vars(r)
+	userID = vars["userID"]
+	gameCode = vars["gameCode"]
+
+	card, err := handler.service.GetFavoriteMap(r.Context(), userID, gameCode)
+	if sendErrorResponse(err, w) {
+		return
+	}
+
+	response := models.Response{
+		Data: card,
 	}
 
 	res, _ := json.Marshal(response)

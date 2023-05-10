@@ -2,12 +2,12 @@
     "err": false,
     "data": {
         "type": "card",
-        "image": "https://hero_sombra.png",
-        "name": "Colosso",
-        "description": "Favorite map",
-        "leftThumb": {
-            "image": "https://globe.png",
-            "clickable": false
+        "image": "https://www.gamespot.com/a/uploads/scale_super/1639/16394540/3901118-screenshot_20211024-143435_callofduty.jpg",
+        "name": "Coastal",
+        "description": "Most used map for Call of Duty: Modern Warfare",
+        "left_thumb": {
+            "icon": "globe",
+            "is_clickable": false
         }
     }
 }
