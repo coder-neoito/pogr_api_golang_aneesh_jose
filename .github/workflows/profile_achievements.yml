@@ -1,0 +1,25 @@
+name: Profile Achievements Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "profile_achievements/**"
+      - ".github/workflows/profile_achievements.yml"
+jobs:
+  build_profile_achievements:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.19.x
+
+      - name: Build Docker image for profile_achievements
+        run: |
+          cd profile_achievements
+          docker build -t pogr_interview_test:profile_achievements:$GITHUB_RUN_NUMBER .

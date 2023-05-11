@@ -1,4 +1,4 @@
-package profile_overview
+package profile_achievements
 
 import (
 	"net/http"
@@ -13,9 +13,9 @@ import (
 var port = GetEnvOrDefault("PORT", "8080")
 
 func Run() error {
-	overviewRepo := NewOverviewRepository()
-	gameService := NewOverviewService(overviewRepo)
-	gameHandler := NewOverviewHandler(gameService)
+	achievementsRepo := NewAchievementsRepository()
+	gameService := NewAchievementsService(achievementsRepo)
+	gameHandler := NewAchievementsHandler(gameService)
 
 	gameRoutes := createGameProfileRoutes(gameHandler)
 	corsHandler := createCORSHandler(gameRoutes)
@@ -23,7 +23,7 @@ func Run() error {
 	return http.ListenAndServe(fmt.Sprintf(":%s", port), corsHandler)
 }
 
-func createGameProfileRoutes(handler OverviewHandler) *mux.Router {
+func createGameProfileRoutes(handler AchievementsHandler) *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/api/health", handler.HealthCheck).Methods(http.MethodGet)
 
@@ -31,9 +31,9 @@ func createGameProfileRoutes(handler OverviewHandler) *mux.Router {
 	return r
 }
 
-func createUserRoutes(handler OverviewHandler, r *mux.Router) {
+func createUserRoutes(handler AchievementsHandler, r *mux.Router) {
 	userRoutes := r.PathPrefix("/api/user/{userID}").Subrouter()
-	userRoutes.HandleFunc("/get-details", handler.GetUser).Methods(http.MethodGet)
+	userRoutes.HandleFunc("/get-achievements", handler.GetUserAchievements).Methods(http.MethodGet)
 }
 
 func createCORSHandler(rootHandler http.Handler) http.Handler {

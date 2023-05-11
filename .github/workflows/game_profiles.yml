@@ -1,0 +1,35 @@
+name: Game Profile Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "game_profiles/**"
+      - ".github/workflows/game_profiles.yml"
+jobs:
+  build_game_profiles:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.19.x
+
+      - name: Build Docker image for game_profiles
+        run: |
+          cd game_profiles
+          docker build -t pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER .
+      - name: Authenticate with Google Cloud
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Tag Docker image
+        run: |
+          docker tag pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REGION }}/pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER
+      - name: Push Docker image to Artifact Registry
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REGION }}/pogr_interview_test/game_profiles:$GITHUB_RUN_NUMBER

@@ -1,46 +1,46 @@
-package profile_overview
+package profile_achievements
 
 import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/pogr_api_golang_aneesh_jose/profile_overview/src/models"
+	"github.com/pogr_api_golang_aneesh_jose/profile_achievements/src/models"
 
 	"github.com/gorilla/mux"
 )
 
-type overviewHandler struct {
-	service OverviewService
+type achievementsHandler struct {
+	service AchievementsService
 }
 
-type OverviewHandler interface {
+type AchievementsHandler interface {
 	HealthCheck(w http.ResponseWriter, r *http.Request)
-	GetUser(w http.ResponseWriter, r *http.Request)
+	GetUserAchievements(w http.ResponseWriter, r *http.Request)
 }
 
-func NewOverviewHandler(service OverviewService) OverviewHandler {
-	return &overviewHandler{
+func NewAchievementsHandler(service AchievementsService) AchievementsHandler {
+	return &achievementsHandler{
 		service: service,
 	}
 }
 
-func (handler overviewHandler) HealthCheck(w http.ResponseWriter, r *http.Request) {
+func (handler achievementsHandler) HealthCheck(w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal("success")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
 
-func (handler overviewHandler) GetUser(w http.ResponseWriter, r *http.Request) {
+func (handler achievementsHandler) GetUserAchievements(w http.ResponseWriter, r *http.Request) {
 	var userID string
 
 	vars := mux.Vars(r)
 	userID = vars["userID"]
-	games, err := handler.service.GetUser(r.Context(), userID)
+	achievements, err := handler.service.GetUserAchievements(r.Context(), userID)
 	if sendErrorResponse(err, w) {
 		return
 	}
 	response := models.Response{
-		Data: games,
+		Data: achievements,
 	}
 
 	res, _ := json.Marshal(response)

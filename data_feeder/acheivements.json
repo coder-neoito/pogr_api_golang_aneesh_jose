@@ -1,0 +1,50 @@
+[
+    {
+        "_id": {
+            "$oid": "645a242587e0f691ee174e51"
+        },
+        "name": "Librarian",
+        "provider": "pogr",
+        "description": "Own over 100 games",
+        "thumbnail":"https://github.com/aneesh-jose/pogr_api_golang_aneesh_jose/blob/main/assets/anciant_cat_librarian.png?raw=true",
+        "rewards": [
+            {
+                "_id": {
+                    "$oid": "645a242587e0f691ee176e51"
+                }
+            }
+        ]
+    },
+    {
+        "_id": {
+            "$oid": "645a242587e0f691ee174e52"
+        },
+        "name": "Mailman",
+        "provider": "pogr",
+        "description": "Invite 5 users to POGR",
+        "thumbnail":"https://github.com/aneesh-jose/pogr_api_golang_aneesh_jose/blob/main/assets/mailman.jpg?raw=true",
+        "rewards": [
+            {
+                "_id": {
+                    "$oid": "645a242587e0f691ee176e52"
+                }
+            }
+        ]
+    },
+    {
+        "_id": {
+            "$oid": "645a242587e0f691ee174e53"
+        },
+        "thumbnail":"https://github.com/aneesh-jose/pogr_api_golang_aneesh_jose/blob/main/assets/tank_you.jpg?raw=true",
+        "name": "Tank you",
+        "provider": "pogr",
+        "description": "Purchased pogr premium",
+        "rewards": [
+            {
+                "_id": {
+                    "$oid": "645a242587e0f691ee176e53"
+                }
+            }
+        ]
+    }
+]
